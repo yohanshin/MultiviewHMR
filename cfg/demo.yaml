@@ -1,0 +1,38 @@
+# Large model 
+# Deconv layers 0
+# Volume size 16
+# Image size 192
+# Volume aggregation: mean
+
+# No weakly supervision
+
+EVAL: True
+
+TRAIN:
+    NAME: "Demo"
+    BATCH_SIZE: 1
+    INIT_WEIGHT: 'logger/SEMI_SUPERVISED/checkpoint.pt'
+    # INIT_WEIGHT: 'logger/baseline.pt'
+
+DATASET:
+    LABEL_PTH: 'data/dataset/human36m/extra/h36m_to_J32.npy'
+    IMAGE_SHAPE: (224, 224)
+    NUM_WORKERS: 1
+    VAL_SHUFFLE: False
+
+MODEL:
+    META_ARCH: 'VHMR'
+    BACKBONE:
+        ARCHITECTURE: "resnet50"
+        INIT_WEIGHT: "data/pretrained/spin_checkpoint.pth"
+        DECONV_LAYERS: 0
+        DECONV_FILTERS: ()
+        DECONV_KERNELS: ()
+
+    AGGREGATION:
+        OUTPUT_CHANNELS: 256
+        VOLUME_SIZE: 16
+        METHOD: 'mean'
+
+    VHMR:
+        LARGE_MODEL: False
